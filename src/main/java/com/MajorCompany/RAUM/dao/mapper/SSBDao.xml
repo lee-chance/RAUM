@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.MajorCompany.RAUM.dao.SSBDao">
+	<!--    인터페이스 메소드명 -->
+	<select id="qnaListLimit" resultType="com.MajorCompany.RAUM.dto.SSB.NoticeQDto">
+		SELECT * FROM NOTICEQUESTION LIMIT 5;
+	</select>
+	
+	<select id="NoticeList" resultType="com.MajorCompany.RAUM.dto.SSB.NoticeDto">
+		SELECT * FROM NOTICE;
+	</select>
+	
+	<select id="qnaList" resultType="com.MajorCompany.RAUM.dto.SSB.NoticeQDto">
+		SELECT * FROM NOTICEQUESTION;
+	</select>
+	
+	<select id="NoticeContent" resultType="com.MajorCompany.RAUM.dto.SSB.NoticeDto">
+		SELECT * FROM NOTICE WHERE SEQ = #{param1};
+	</select>
+	
+	<select id="QnaContent" resultType="com.MajorCompany.RAUM.dto.SSB.NoticeQDto">
+		SELECT * FROM NOTICEQUESTION WHERE SEQ = #{param1};
+	</select>
+	
+	<insert id="QAWrite">
+		INSERT INTO QA (USER_SEQ, QACATEGORY_SEQ, TITLE, CONTENT) VALUES (#{param1}, #{param2}, #{param3}, #{param4});
+	</insert>
+
+
+	<select id="query" resultType="String">
+		SELECT password FROM Login WHERE email = #{0};
+	</select>
+	
+	<select id="getNickname" resultType="com.MajorCompany.RAUM.dto.SSB.UserDto">
+		SELECT User.seq, nickname
+		FROM User, Login
+		WHERE email = #{0}
+		AND Login.seq = User.Login_seq
+	</select>	
+
+</mapper>

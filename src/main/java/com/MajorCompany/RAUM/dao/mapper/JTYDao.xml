@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- ~~~~~~~~~~샘플코드(클래스, 패키지명 바뀐거 확인!!)~~~~~~~~~~ -->
+<mapper namespace="com.MajorCompany.RAUM.dao.JTYDao">
+	<!--    인터페이스 메소드명 -->
+	
+	<insert id="inserLoginDao">
+		INSERT INTO LOGIN (email, password) VALUES (#{param1}, #{param2})
+	</insert>
+	
+	<insert id="insertUserDao">
+		INSERT INTO USER (Login_seq, nickname, phone, birthday) VALUES ((SELECT SEQ FROM LOGIN ORDER BY SEQ DESC LIMIT 1), #{param1}, #{param2},#{param3})
+	</insert>
+	
+	<insert id="insertAddressDao">
+		INSERT INTO ADDRESS (User_seq, address) VALUES ((SELECT SEQ FROM USER ORDER BY SEQ DESC LIMIT 1), #{param1})
+	</insert>
+	<select id="checkEmailDao" resultType="String" >
+		SELECT email as EMAIL FROM Login where email = #{param1} ;
+	</select>
+
+
+
+</mapper>

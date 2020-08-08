@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- ~~~~~~~~~~샘플코드(클래스, 패키지명 바뀐거 확인!!)~~~~~~~~~~ -->
+<mapper namespace="com.MajorCompany.RAUM.dao.LCSDao">
+	<!--    인터페이스 메소드명 -->
+	<select id="test" resultType="String">
+		SELECT email FROM Login WHERE email = #{0}
+	</select>
+	
+	<select id="findId" resultType="int">
+		SELECT email
+		FROM Login, User
+		WHERE nickname = #{0}
+		AND phone = #{1}
+		AND User.Login_seq = Login.seq
+	</select>
+	
+	<select id="findPw" resultType="int">
+		SELECT password
+		FROM Login, User
+		WHERE email = #{0}
+		AND nickname = #{1}
+		AND phone = #{2}
+		AND User.Login_seq = Login.seq
+	</select>
+	
+	<select id="listCart" resultType="com.MajorCompany.RAUM.dto.LCS.DTOCart">
+		SELECT * FROM Cart WHERE User_seq = #{0}
+	</select>
+	
+	<select id="getProductInfo" resultType="com.MajorCompany.RAUM.dto.LCS.DTOProduct">
+		SELECT product.seq, image, name, price
+		FROM cart, product, productImage
+		WHERE cart.User_seq = #{0}
+		AND product.seq = cart.product_seq
+		AND product.seq = productImage.product_seq
+	</select>
+	
+	
+	
+<!-- 	
+ 	<insert id="write">
+		INSERT INTO address (name, phone, address, email, relation) VALUES (#{0}, #{1}, #{2}, #{3}, #{4})
+	</insert>
+	
+	<select id="content" resultType="com.springlec.quiz3.dto.Address">
+		SELECT * FROM address WHERE seq = #{seq};
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM address WHERE seq = #{param1};
+	</delete>
+	
+	<update id="modify">
+		UPDATE address SET name = #{1}, phone = #{2}, address = #{3}, email = #{4}, relation = #{5} WHERE seq = #{0}
+	</update>
+ -->
+ 
+</mapper>
