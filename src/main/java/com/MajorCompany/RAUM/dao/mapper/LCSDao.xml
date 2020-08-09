@@ -39,6 +39,21 @@
 		AND product.seq = productImage.product_seq
 	</select>
 	
+	<select id="rentThis" resultType="com.MajorCompany.RAUM.dto.LCS.DTOCartProdUser">
+		select  nickname, image, name, price, startDate, endDate, qty
+		from user as u, product as p, cart as c, productImage as pi
+		where c.seq = #{0}
+		and u.seq = c.User_seq
+		and p.seq = c.Product_seq
+		and p.seq = pi.Product_seq
+	</select>
+	
+	<select id="getAddressDto" resultType="com.MajorCompany.RAUM.dto.LCS.DTOAddress">
+		select addressName, address, name, phone
+		from address
+		where User_seq =  #{0)
+	</select>
+	
 	
 	
 <!-- 	
