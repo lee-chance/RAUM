@@ -40,6 +40,7 @@ h3, p {
 </head>
 <body>
 
+
 <div id="top">
 	<%@ include file="Top.jsp" %>
 </div>
@@ -72,7 +73,7 @@ h3, p {
 			</tr>
 			<tr>
 				<td bgcolor="#F2F2F2">주문자</td>
-				<td><input type="text" name="nickname" value="<%session.getAttribute("NICKNAME");%>" size="25"></td>
+				<td><input type="text" name="nickname" size="25" value="<%= session.getAttribute("NICKNAME") %>" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td bgcolor="#F2F2F2">상품명</td>
@@ -81,8 +82,7 @@ h3, p {
 			<tr>
 				<td bgcolor="#F2F2F2">주문구분</td>
 				<td><select name='orderType'>
-					  <option value='선택' selected>선택</option>
-					  <option value='주문전'>주문전</option>
+					  <option value='주문전' selected="selected">주문전</option>
 					  <option value='주문완료'>주문완료</option>
 					</select></td>
 			</tr>

@@ -255,15 +255,16 @@
 					<td>배송료</td>
 					<td>금액</td>
 				</tr>
-				
+				<c:forEach items="${Product}" var="dto">
 					<tr>
-						<td><img src="http://192.168.0.80:8080/ProjectShare/${Payment.image}" alt="${Payment.image}" width="50" height="50"></td>
-						<td>  ${Product.qty} </td>
+						<td><img src="http://192.168.0.80:8080/RAUM/resources/images/${dto.image}" alt="${dto.image}" width="50" height="50"></td>
+						<td>  ${dto.qty} </td>
 						<td><input type="text" value="20000원" readonly="readonly"> </td>
-						<td>  ${Product.startDate}<br>${Product.endDate} </td>
+						<td>  ${dto.startDate}<br>${dto.endDate} </td>
 						<td> <input type="text" value="3000원" readonly="readonly"> </td>
-						<td> ${(Product.price + (Product.rentDay * 1000)) * Product.qty + 23000} 원</td> 
+						<td> ${(dto.price + (dto.rentDay * 1000)) * dto.qty + 23000} 원</td> 
 					</tr>
+				</c:forEach>
 
 			</table>
 			<br> <br>
@@ -304,9 +305,7 @@
 								 <input type="text" id="sample6_detailAddress" placeholder="상세 주소" name="sample6_detailAddress"></td>
 						</tr>
 						
-
-
-
+						
 						<tr>
 							<td>휴대폰번호</td>
 							<td><input type="text" class="" title="" value=""
@@ -353,6 +352,7 @@
 									(예 : 3박스 수거반납시 보증금에서 14,000원차감)</font><br> <font style="color: #ff0000" size="1">
 									(대여마지막날이 토,일요일인경우 자동으로 월요일에 수거됩니다)</font></td>
 						</tr>
+<%-- 						 
 						<tr class="address1">
 								<td>이메일</td>
 								<td><input type="text" class="" title="" value="${user_email }" readonly="readonly"
@@ -367,6 +367,7 @@
 										<option value="nate.com">nate.com</option>
 								</select> --></td>
 						</tr>
+--%>
 						<tr class="memo">
 							<td>배송시 요청사항</td>
 							<td><span style="margin-left: 0;">학생일경우 비상연락처 적어주세요.</span><br>
@@ -412,9 +413,15 @@
 						</tr>
 						<tr class="coupon111">
 							<td>결제금액</td>
-							<input type="hidden" value="${Product.price * Product.qty}" name="money2">
-							<td><input type="text" class="" title="" name="money3"
-								id="money3" value="${(Product.price + (Product.rentDay * 1000)) * Product.qty + 3000}" readonly />원</td>
+							<input type="hidden" value="${dto.price * dto.qty}" name="money2">
+							<td>
+							
+							<c:forEach items="${Product}" var="dto">
+							<input type="text" class="" title="" name="money3"
+								id="money3" value="${(dto.price + (dto.rentDay * 1000)) * dto.qty + 3000}" readonly />원
+							</c:forEach>
+							
+							</td>
 						</tr>
 						<tr id="typeTR">
 							<td style="background: none; border-right: none;"></td>
@@ -445,13 +452,15 @@
 						</tr>
 						<tr class="coupon111">
 							<td>결제금액</td>
+							<c:forEach items="${Product}" var="dto">
 							<td><input type="text" class="" title="" readonly
 								paymethod="majorPayMethodAmt" style="width: 80px;" id="money4"
-								value="${(Product.price + (Product.rentDay * 1000)) * Product.qty }" id="money123" name="money4" readonly />원
+								value="${(dto.price + (dto.rentDay * 1000)) * dto.qty }" id="money123" name="money4" readonly />원
 								+ <span>보증금</span> 20000 원 + 배송비 3000 원 = <input type="text" class=""
 								title="" onfocus="this.select()" readonly="readonly"  style="width: 80px;"
-								id="ppbo_money" value="${(Product.price + (Product.rentDay * 1000)) * Product.qty + 23000}" id=""
+								id="ppbo_money" value="${(dto.price + (dto.rentDay * 1000)) * dto.qty + 23000}" id=""
 								name="ppbo_money"  /></td>
+							</c:forEach>
 						</tr>
 						<tr>
 							<td>은행명</td>

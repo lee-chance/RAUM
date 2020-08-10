@@ -44,7 +44,7 @@
 	<span style="color: red; font-size: x-large;">새로운 상품등록</span>
 	
 	
-	<form action="/ProjectShare/actionAddProduct.do" method="post" enctype="Multipart/form-data" onsubmit="return blankCheck(this)">
+	<form action="actionAddProduct.do" method="post" enctype="Multipart/form-data" onsubmit="return blankCheck(this)">
 	
 	<br>
 	<br>

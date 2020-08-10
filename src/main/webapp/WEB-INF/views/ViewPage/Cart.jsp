@@ -155,7 +155,7 @@ img{
 			<tr>
 				<td style="text-align:center"><input type="checkbox" name="chk"></td>
 				<c:forEach items="${productInfo}" var="dtoProduct" begin="${status.index}" end="${status.index}" varStatus="pStatus">
-					<td style="border-right:none"><img src="http://192.168.0.80:8080/ProjectShare/${dtoProduct.image}" width="60" height="60"></td>
+					<td style="border-right:none"><img src="http://192.168.0.80:8080/RAUM/resources/images/${dtoProduct.image}" width="60" height="60"></td>
 					<td width="340" style="border-left:none"><a href="/ProjectShare/MainProductDetail.do?product_num=${dtoProduct.product_num}">${dtoProduct.name}</a>
 					<br>${dto.size}</td>			
 				</c:forEach>

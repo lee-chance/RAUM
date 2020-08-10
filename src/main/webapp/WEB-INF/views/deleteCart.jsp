@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv='refresh' content='0;url="/ProjectShare/cart.do'>
+<meta http-equiv='refresh' content='0;url="cart.do'>
 <title>Insert title here</title>
 </head>
 <body>

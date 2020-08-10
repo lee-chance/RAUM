@@ -8,14 +8,15 @@ public class DTOPayment {
 	private String price;
 	private String startDate;
 	private String endDate;
+	private String rentDay;
 	private String qty;
 	
 	public DTOPayment() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public DTOPayment(String nickname, String image, String name, String price, String startDate, String endDate,
-			String qty) {
+			String rentday, String qty) {
 		super();
 		this.nickname = nickname;
 		this.image = image;
@@ -23,6 +24,7 @@ public class DTOPayment {
 		this.price = price;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.rentDay = rentday;
 		this.qty = qty;
 	}
 
@@ -81,5 +83,13 @@ public class DTOPayment {
 	public void setQty(String qty) {
 		this.qty = qty;
 	}
-	
+
+	public String getRentDay() {
+		return rentDay;
+	}
+
+	public void setRentDay(String rentDay) {
+		this.rentDay = rentDay;
+	}
+
 }

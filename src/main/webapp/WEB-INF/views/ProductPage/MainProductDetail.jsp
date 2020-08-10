@@ -131,17 +131,17 @@ table#MainProductDetail th, table#MainProductDetail td {
 			<table id="MainProductDetail" width="1240" hieght="800">
 				<tr>
 					<td rowspan="16"><img
-						src="http://192.168.0.80:8080/ProjectShare/${productDetail.image }"
+						src="http://192.168.0.80:8080/RAUM/resources/image/${productDetail.image }"
 						width="450" height="600"></td>
 				</tr>
 				<tr>
 					<td>상품번호</td>
-					<td>${productDetail.product_num }<input type="hidden" name="product_num" value="${productDetail.product_num }"></td>
+					<td>${productDetail.seq }<input type="hidden" name="product_num" value="${productDetail.seq }"></td>
 				</tr>
 
 				<tr>
 					<td>카테고리</td>
-					<td>${productDetail.category_name }</td>
+					<td>${productDetail.category }</td>
 				</tr>
 
 				<tr>
@@ -253,12 +253,12 @@ table#MainProductDetail th, table#MainProductDetail td {
 
 		<!-- 상품 상세 정보 -->
 		<div style="display: block;">
-			<td><img
-				src="http://www.ddaengshop.com/ckupload/images/%EC%96%91.jpeg"></td>
+			<td>
+			<img src="http://192.168.0.80:8080/RAUM/resources/image/${productDetail.image }" width="675" height="900">
+			</td>
 		</div>
 		<div style="display: block;">
-			<td><img
-				src="http://ddaengshop.com/ckupload/images/%EB%8F%99%EB%AC%BC%EC%9E%A0%EC%98%B7%20%EC%82%AC%EC%9D%B4%EC%A6%88%ED%91%9C.jpg"></td>
+			<td><p>${productDetail.information }<p></td>
 		</div>
 
 		<!-- 대여가이드 -->

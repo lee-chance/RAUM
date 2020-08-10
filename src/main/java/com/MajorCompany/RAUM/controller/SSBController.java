@@ -1,17 +1,23 @@
 package com.MajorCompany.RAUM.controller;
+import java.io.File;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;import org.omg.CORBA.Request;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.MajorCompany.RAUM.dao.SSBDao;
 import com.MajorCompany.RAUM.dto.SSB.NoticeDto;
 import com.MajorCompany.RAUM.dto.SSB.NoticeQDto;
+import com.MajorCompany.RAUM.dto.SSB.ProductDto;
+import com.MajorCompany.RAUM.dto.SSB.ReviewDto;
 import com.MajorCompany.RAUM.dto.SSB.UserDto;
 
 @Controller
@@ -25,6 +31,7 @@ public class SSBController {
 	//		  로그인/회원가입		//
 	//						    //
 	//////////////////////////////
+	
 	@RequestMapping("/login.do") // 1대1문의 작성
 	public String login() {
 		
@@ -124,8 +131,12 @@ public class SSBController {
 		int User_seq = Integer.parseInt(session.getAttribute("USER_SEQ").toString());
 		
 		SSBDao dao = sqlSession.getMapper(SSBDao.class);
+		dao.QAWrite(User_seq, Integer.parseInt(request.getParameter("category")), request.getParameter("title"), request.getParameter("content")); //QA 작성 
 		
-		dao.QAWrite(User_seq, Integer.parseInt(request.getParameter("category")), request.getParameter("title"), request.getParameter("content"));
+
+		int QA_seq = dao.QALastRow(); // QA의 마지막 행 가져오기 
+		dao.QAStatusWrite(QA_seq, 1);
+		
 		
 		// ----------------------
 		// 마이페이지로 수정해야 됨 !!!!
@@ -150,6 +161,103 @@ public class SSBController {
 		
 		return ("ViewPage/qnaContent");
 	}
+	
+	//////////////////////////////
+	//						    //
+	//			 리뷰			    //
+	//						    //
+	//////////////////////////////
+	
+	@RequestMapping("/reviewList.do") // 고객센터
+	public String reviewList(Model model) {
+		SSBDao dao = sqlSession.getMapper(SSBDao.class);
+		model.addAttribute("reviewList", dao.ReviewList());
+		
+		return ("ViewPage/ReviewList");
+	}
+
+	@RequestMapping("/review_content_view.do") // 리뷰 클릭 액션
+	public String reviewContent(HttpServletRequest request, Model model) {
+		SSBDao dao = sqlSession.getMapper(SSBDao.class);
+		dao.UpdateViews(Integer.parseInt(request.getParameter("seq")));
+		
+		ReviewDto reviewDto = dao.ReviewContent(Integer.parseInt(request.getParameter("seq")));
+		model.addAttribute("review_content_view", reviewDto);
+		
+		return ("ViewPage/ReviewContent");
+	}
+	
+	@RequestMapping("/review_write.do") // 리뷰 작성할때 상품정보 가져오기
+	public String productInfo(Model model) {
+		SSBDao dao = sqlSession.getMapper(SSBDao.class);
+
+		//ProductDto productDto = dao.productInfo(Integer.parseInt(request.getParameter("seq")));
+		ProductDto productDto = dao.productInfo(1);
+		model.addAttribute("review_write", productDto);
+		
+		return ("ViewPage/writeReview");
+	}
+	
+	
+
+	  @RequestMapping("/writeReview.do")
+	    public String requestupload1(MultipartHttpServletRequest mtfRequest, HttpServletRequest request) {
+	        
+		  //파일 업로드
+		  //String src = mtfRequest.getParameter("src");
+		  //System.out.println("src value : " + src);
+		  MultipartFile mf = mtfRequest.getFile("file");
+
+	      String root_path = request.getSession().getServletContext().getRealPath("/");  
+	      String attach_path = "resources/image/";
+	        
+	      String originFileName = mf.getOriginalFilename(); // 원본 파일 명
+	      long fileSize = mf.getSize(); // 파일 사이즈
+	      //System.out.println("originFileName : " + originFileName);
+	      //System.out.println("fileSize : " + fileSize);
+
+	      String safeFile = root_path + attach_path + originFileName;
+	      //System.out.println(safeFile);
+
+		  //System.out.println("safeFile : " + safeFile);
+	      try {
+	    	  	mf.transferTo(new File(safeFile));
+	      } catch (IllegalStateException e) {
+	            // TODO Auto-generated catch block
+	    	  	e.printStackTrace();
+	      } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	    	  	e.printStackTrace();
+	      }
+	        
+
+	      SSBDao dao = sqlSession.getMapper(SSBDao.class);
+	      
+	      HttpSession session = request.getSession();
+	      int User_seq = Integer.parseInt(session.getAttribute("USER_SEQ").toString());
+	      // ------------------ 수정
+	      int Payment_seq = 8;
+	      // ------------------
+	      
+	      dao.WriteReview(User_seq, Payment_seq, request.getParameter("title"), request.getParameter("content")); //Insert Review
+	  
+	      int Review_seq = dao.ReviewLastRow(); // Review의 마지막 행 가져오기 
+	      
+	      dao.InsertReviewViews(Review_seq, 0); //Insert ReviewViews
+	      dao.InsertReviewImage(Review_seq, originFileName); //Insert ReviewImage
+
+
+	        return "redirect:customerService.do";
+	    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

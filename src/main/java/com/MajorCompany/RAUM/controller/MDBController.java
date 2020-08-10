@@ -1,5 +1,6 @@
 package com.MajorCompany.RAUM.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,28 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.MajorCompany.RAUM.dao.MDBDao;
+import com.MajorCompany.RAUM.dto.LCS.DTOAddress;
+import com.MajorCompany.RAUM.dto.LCS.DTOPayment;
 import com.MajorCompany.RAUM.dto.MDB.Checkout;
 import com.MajorCompany.RAUM.dto.MDB.CompletePayment;
-import com.MajorCompany.RAUM.dto.MDB.Product;
 
 @Controller
 public class MDBController {
 	
 	@Autowired
 	private SqlSession sqlSession;
-	
-	
-	@RequestMapping("/checkout.do")
-	public String list(HttpServletRequest request, Model model) {
-		
-		MDBDao dao = sqlSession.getMapper(MDBDao.class);
-		Product Product = dao.contentView(request.getParameter("seq"));
-		model.addAttribute("Product", Product);
-		
-		
-		
-		return "CheckoutPage/Payment";
-	}
 	
 	
 	//결제페이지 입력하는부분
@@ -64,6 +53,7 @@ public class MDBController {
 		return "CheckoutPage/CompletePaymentview";
 	}
 	
+	//결제 완료 불러오기
 	@RequestMapping("/CompletePayment.do")
 	public String CompletePament(HttpServletRequest request, Model model) {
 		
@@ -75,7 +65,50 @@ public class MDBController {
 		return "CheckoutPage/CompletePayment";
 	}
 	
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	//관리자페이지
+	@RequestMapping("/admin.do")
+	public String admin(HttpServletRequest request, Model model) {
+		System.out.println("admin");
+		return "redirect:adminUserList.do";
+	}
+	
+	//유저리스트
+	@RequestMapping("/adminUserList.do")
+	public String mypage(HttpServletRequest request, Model model) {
+		
+		MDBDao dao = sqlSession.getMapper(MDBDao.class);
+		model.addAttribute("userList", dao.getUserList());
+		
+		return "ViewPage/UserList";
+	}
+	
+	
+	//상품 리스트
+	@RequestMapping("/adminProductList.do")
+	public String adminProductList(HttpServletRequest request, Model model) {
+		
+		MDBDao dao = sqlSession.getMapper(MDBDao.class);
+		model.addAttribute("productList", dao.getProductList());
+		
+		return "ViewPage/ProductList";
+	}
+	
+	
+	
 
 	
 
+	
+	
+	
 }

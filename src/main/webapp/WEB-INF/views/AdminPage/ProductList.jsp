@@ -34,7 +34,7 @@ td, tr{
 	
 	    <table width="800" align="center">
 	    	<tr>
-	    		<td align="right"><a href="/ProjectShare/addProduct.do"><span style="color: red; font-size: x-large;">제품등록</span></a><!-- <input type="text" name="search"><input type="button" value="검색"> --></td>
+	    		<td align="right"><a href="addProduct.do"><span style="color: red; font-size: x-large;">제품등록</span></a><!-- <input type="text" name="search"><input type="button" value="검색"> --></td>
 	    	</tr>
 	    </table><!-- "http://192.168.0.113:8080/ProjectShare/AdminPage/ProductStock.jsp" -->
 		<table id="productListTable" border="1" class="order_table1" width="800" align="center">
@@ -53,10 +53,10 @@ td, tr{
 		</thead>
 		<tbody>
 		<c:forEach items="${productList}" var="pro">
-			<tr>
-				<td>${pro.product_num }</td>
-				<td><img src="http://192.168.0.80:8080/ProjectShare/${pro.image }" width="80" height="80"></td>
-				<td>${pro.name }</td><!-- <a href="ProductDetail.do?product_num=${pro.product_num}"> ${pro.name } </a> -->
+			<tr><!-- seq, name, price, uploadDate -->
+				<td>${pro.seq }</td>
+				<td><img src="http://192.168.0.80:8080/RAUM/resources/image/${pro.image }" width="80" height="80"></td>
+				<td>${pro.name }</td>
 				<td>${pro.price }</td>
 			</tr>
 		</c:forEach>

@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="team-member">
-                            <img class="mx-auto rounded-circle" src="resources/assets/img/tea.jpeg" alt="" />
+                            <img class="mx-auto rounded-circle" src="/resources/assets/img/tea.jpeg" alt="" />
                             <h4>장태영</h4>
                             <p class="text-muted">회원 가입, 로그인, 마이페이지 정보수정, 탈퇴</p>
                             <!-- <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>

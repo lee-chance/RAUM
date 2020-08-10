@@ -39,8 +39,16 @@
 		AND product.seq = productImage.product_seq
 	</select>
 	
-	<select id="rentThis" resultType="com.MajorCompany.RAUM.dto.LCS.DTOCartProdUser">
-		select  nickname, image, name, price, startDate, endDate, qty
+	<select id="cartToOrder1" resultType="String">
+		SELECT Cart.seq FROM Cart WHERE User_seq = #{0}
+	</select>
+	
+	<select id="cartToOrder2" resultType="com.MajorCompany.RAUM.dto.LCS.DTOCartProduct">
+		SELECT Cart.seq FROM Cart WHERE User_seq = #{0}
+	</select>
+	
+	<select id="rentThis" resultType="com.MajorCompany.RAUM.dto.LCS.DTOPayment">
+		select  nickname, image, name, price, startDate, endDate, rentday, qty
 		from user as u, product as p, cart as c, productImage as pi
 		where c.seq = #{0}
 		and u.seq = c.User_seq
@@ -49,9 +57,46 @@
 	</select>
 	
 	<select id="getAddressDto" resultType="com.MajorCompany.RAUM.dto.LCS.DTOAddress">
-		select addressName, address, name, phone
-		from address
-		where User_seq =  #{0)
+		SELECT addressName, address, name, phone
+		FROM address
+		WHERE User_seq = #{0}
+	</select>
+	
+ 	<insert id="addItem">
+		insert into product(ProductCategory_seq, name, price) values(#{0},#{1},#{2});
+	</insert>
+	
+ 	<insert id="addImage">
+		insert into ProductImage(Product_seq, image) values((select seq from product order by seq desc limit 1), #{0});
+	</insert>
+	
+ 	<insert id="addStocks">
+		insert into ProductStock(Product_seq, size, qty) values((select seq from product order by seq desc limit 1), #{0}, #{1});
+	</insert>
+	
+ 	<insert id="addInformation">
+		insert into ProductInformation(Product_seq, content) values((select seq from product order by seq desc limit 1), #{0});
+	</insert>
+	
+	<delete id="deleteFromCart">
+		delete from cart where seq = #{0}
+	</delete>
+	
+	<select id="getProductList" resultType="com.MajorCompany.RAUM.dto.LCS.DTOProduct2">
+		select p.seq as seq, p.name as name, p.price as price, pi.image as image, pc.category as category
+		from product as p, productCategory as pc, productImage as pi
+		where p.ProductCategory_seq = pc.seq
+		and p.seq = pi.Product_seq
+		order by p.uploadDate desc
+	</select>
+	
+	<select id="getProductDetail" resultType="com.MajorCompany.RAUM.dto.LCS.DTOProductDetail">
+		select p.seq as seq, p.name as name, p.price as price, pi.image as image, pc.category as category, pInfo.content as information
+		from product as p, productCategory as pc, productImage as pi, ProductInformation as pInfo
+		where p.ProductCategory_seq = pc.seq
+		and p.seq = pi.Product_seq
+		and p.seq = pInfo.Product_seq
+		and p.seq = #{0}
 	</select>
 	
 	

@@ -73,8 +73,11 @@
 				<ul align="center" style="float:center;"><!--  style="float:left;"  margin:0auto;"  -->
 					<c:forEach items = "${productList}" var="pro">
 						<li id="lili">
-							<a href="/ProjectShare/MainProductDetail.do?product_num=${pro.product_num }">
-								<img src="http://192.168.0.80:8080/ProjectShare/${pro.image }" width="170" height="200" style="padding:30px;"> <p>${pro.name }</p> <br> <p>${pro.price }</p>
+							<a href="MainProductDetail.do?pSeq=${pro.seq }">
+								<img src="http://192.168.0.80:8080/RAUM/resources/image/${pro.image }" width="170" height="200" style="padding:30px;"><br>
+								${pro.name } <br>
+								${pro.price } <br>
+								${pro.category }
 							</a>
 						</li>
 					</c:forEach>

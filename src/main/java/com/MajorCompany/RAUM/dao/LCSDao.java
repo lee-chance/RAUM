@@ -6,6 +6,8 @@ import com.MajorCompany.RAUM.dto.LCS.DTOAddress;
 import com.MajorCompany.RAUM.dto.LCS.DTOCart;
 import com.MajorCompany.RAUM.dto.LCS.DTOPayment;
 import com.MajorCompany.RAUM.dto.LCS.DTOProduct;
+import com.MajorCompany.RAUM.dto.LCS.DTOProduct2;
+import com.MajorCompany.RAUM.dto.LCS.DTOProductDetail;
 
 public interface LCSDao {
 	
@@ -23,6 +25,18 @@ public interface LCSDao {
 
 	public DTOAddress getAddressDto(String seq); // 유저 주소록 불러오기
 
-	public void deleteFromCart(String count, String seq); // 장바구니 삭제
+	public void addItem(String pName, String pPrice, String pImage); // 상품등록
 
+	public void addImage(String pImage); // 상품 이미지 등록
+
+	public void addStocks(int pSize, String pQty); // 상품 재고 추가
+
+	public void addInformation(String pContent); // 상품 정보 추가
+
+	public void deleteFromCart(String sequence); // 장바구니 삭제
+
+	public ArrayList<DTOProduct2> getProductList(); // 전체 상품리스트 불러오기
+
+	public DTOProductDetail getProductDetail(String pSeq); // 상품정보상세보기
+	
 }

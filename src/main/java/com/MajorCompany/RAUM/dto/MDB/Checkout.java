@@ -4,6 +4,7 @@ public class Checkout {
 	
 	public String name, address, phone, payment, receiveMethod, returnMethod, accountName, paymentMethod, optional;
 	
+	
 	public Checkout() {
 		// TODO Auto-generated constructor stub
 	}

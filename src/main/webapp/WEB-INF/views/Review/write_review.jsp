@@ -17,23 +17,24 @@
 	
 	<table >
 		<tr>
-			<td rowspan="3"><img src="http://192.168.0.80:8080/ProjectShare/${review_write.productImage }" width="50" height="50"></td>
+			<td rowspan="3"><img src="/RAUM/resources/image/${review_write.image}" width="80" height="80"/><br/></td>
+
 		</tr>
 		<tr>
-			<td>${review_write.productName }</td>
+			<td>${review_write.name }</td> 
 		</tr>
 		<tr>
-			<td>230</td>
+			<td>${review_write.size }</td>
 		</tr>			
 	</table >
 	<hr style="color: #A4A4A4"> <br><br>
 
 
-	<form action="writeReview.do" method="post">
+    <form name="fileForm" action="writeReview.do" method="post" enctype="multipart/form-data">
 		<table>
-			<tr>
-				<td><input type="hidden" name="order_num" size="5" value="${review_write.order_num }"><input type="hidden" name="user_email" size="20" value="${review_write.user_email }"></td>
-			</tr>
+	        <tr>
+	        	<td><input type="file" name="file" /></td>
+	        </tr>
 			<tr>
 				<td><input type="text" name="title" size="50" placeholder="제목"><br><br></td>
 			</tr>
@@ -42,9 +43,10 @@
 			</tr>
 			<tr>
 				<td align="center"><input type="submit" value="등록하기" style="height:25px; width:100px;"></td>
-			</tr>						
+			</tr>	
 		</table>
-	</form>
+    </form>
+
 	
 </body>
 </html>

@@ -14,6 +14,14 @@
 		INSERT INTO PAYMENT (User_seq, Rent_seq, name, address, phone, payment, receiveMethod, returnMethod, accountName, paymentMethod, optional)
 		VALUES (#{0}, 1, #{dto.name}, #{dto.address}, #{dto.phone}, #{dto.payment}, #{dto.receiveMethod}, #{dto.returnMethod}, #{dto.accountName}, #{dto.paymentMethod}, #{dto.optional})
 	</insert>
+	
+	<insert id="Deposit">
+		<!-- INSERT INTO Deposit (Payment_seq, account, accountName, deposit)
+		VALUES ((SELECT seq FROM Payment ORDER BY seq DESC LIMIT 1), (SELECT  FROM Payment ORDER BY seq DESC LIMIT 1), 1, 20000); -->
+	
+	</insert>
+	
+	
 
 	<select id="contentView2" resultType="com.MajorCompany.RAUM.dto.MDB.CompletePayment">
 		SELECT P.SEQ, L.EMAIL, P.NAME, P.PHONE, P.RENT_SEQ, P.PAYMENT, P.ORDERDATE
@@ -33,8 +41,28 @@
 			SELECT c.qty, p.price, c.startDate, c.endDate, c.rentDay
 			FROM Cart AS c, Product AS p
 			WHERE p.seq = c.Product_seq
-			AND p.seq = 2
-			; 
+			AND p.seq = 2; 
 	</select>
+	
+	<!-- 관리자페이지 회원리스트 -->
+	<select id="getUserList" resultType="com.MajorCompany.RAUM.dto.MDB.AdminUserList">
+		SELECT u.nickname, u.phone, l.email, a.name
+		FROM User AS u, Login AS l, Address AS a
+		WHERE l.seq = u.Login_seq
+		AND u.seq = a.User_seq
+	</select>
+	
+	
+	<select id="getProductList" resultType="com.MajorCompany.RAUM.dto.MDB.AdminProduct">
+		SELECT p.seq, pi.image, p.name, p.price
+		FROM Product AS p, Product AS pc, Productimage AS pi
+		WHERE p.seq = p.ProductCategory_seq
+		AND p.seq = pi.seq
+		AND pi.seq = pc.seq;
+	</select>
+	
+	
+	
+	
 
 </mapper>

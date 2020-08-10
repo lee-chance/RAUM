@@ -39,15 +39,16 @@ td, tr{
 	<table id="reviewTable" border = "1">
 		<c:forEach items = "${reviewList}" var="dto">
 		<tr>
-			<td rowspan="3"><img src="http://192.168.0.80:8080/ProjectShare/${dto.productImage}" width="80" height="80"></td> <!-- 상품이미지 -->		 			
+			<td rowspan="3"><img src="/RAUM/resources/image/${dto.image}" width="80" height="80"/><br/></td>	 			
+
 		</tr>	
-		<tr height="80">
-			<td width="200"><span style="font-weight: bold;">상품명 | ${dto.productName}</span></td> <!— 상품이름 —>
-			<td align="right">작성자 | ${dto.userNickname}</td> <!— 닉네임  —>
-			<td align="right">작성일 | ${dto.reviewDate}</td> <!— 날짜 —>			 			
+		<tr height="50">
+			<td width="200"><span style="font-weight: bold;">상품명 | ${dto.name}</span></td> <!-- 상품 이름 -->
+			<td align="center">작성자 | ${dto.nickname}</td> <!-- 닉네임 -->
+			<td align="right">작성일 | ${dto.writeDate}</td> <!-- 작성 일자 -->			 			
 		</tr>
 		<tr height="50">
-			<td colspan="3"><a href="review_content_view.do?seq=${dto.reviewSeq}">${dto.reviewTitle}</a></td> <!— 리뷰제목 —>		 			
+			<td colspan="3"><a href="review_content_view.do?seq=${dto.seq}">${dto.title}</a></td> <!-- 제목 -->	 			
 		</tr>		
 		</c:forEach>
 	

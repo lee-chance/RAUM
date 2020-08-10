@@ -26,19 +26,22 @@ td, tr{
 	<h3><span style="color: red">대여후기</span></h3><br>
 	
 	
-	<form action="/ProjectShare/reviewList.do" method="post">
+	<form action="reviewList.do" method="post">
 		<table id="reviewContentTable" border="1" align="center">
 			<tr>
-				<td colspan="4" align="center" bgcolor="#F2F2F2"><span style="font-weight: bold;">${review_content_view.reviewTitle }</span></td><!--제목  -->
+				<td colspan="4" align="center" bgcolor="#F2F2F2"><span style="font-weight: bold;">${review_content_view.title }</span></td><!--제목  -->
 			</tr>
 			<tr>
-				<td align="left"><span style="font-weight: bold">상품명</span> ${review_content_view.productName }</td><!--상품명  -->
-				<td align="left"><span style="font-weight: bold">작성자</span> ${review_content_view.userNickname }</td><!--작성자  -->
-				<td align="right"><span style="font-weight: bold">작성일</span> ${review_content_view.reviewDate }</td><!--작성일  -->
-				<td align="right"><span style="font-weight: bold">조회수</span> ${review_content_view.reviewCount }</td><!--조회수  -->
+				<td align="left"><span style="font-weight: bold">상품명</span> ${review_content_view.name }</td><!--상품명  -->
+				<td align="left"><span style="font-weight: bold">작성자</span> ${review_content_view.nickname }</td><!--작성자  -->
+				<td align="right"><span style="font-weight: bold">작성일</span> ${review_content_view.writeDate }</td><!--작성일  -->
+				<td align="right"><span style="font-weight: bold">조회수</span> ${review_content_view.views }</td><!--조회수  -->
 			</tr>
 			<tr>
-				<td colspan="4" align="center" height="200">${review_content_view.reviewContent }</td><!--내용 -->
+				<td colspan="4" align="center" height="100"><img src="/RAUM/resources/image/${review_content_view.image}"/></td>
+			</tr>
+			<tr>
+				<td colspan="4" align="center" height="150">${review_content_view.content }</td><!--내용 -->
 			</tr>
 			<tr >
 				<td colspan="4" align="center"><input type="submit" value="목록으로" style="height:25px; width:100px;"></td><!--목록으로 -->
