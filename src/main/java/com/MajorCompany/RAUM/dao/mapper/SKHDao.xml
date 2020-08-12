@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.MajorCompany.RAUM.dao.SKHDao">
+	<select id="listDao" resultType="com.MajorCompany.RAUM.dto.SKH.userlist">
+		SELECT EMAIL, NICKNAME, CREATEDATE, ADDRESS, USER.PHONE AS PHONE, POINT, PASSWORD FROM 
+		LOGIN JOIN USER JOIN ADDRESS JOIN POINT ON LOGIN.SEQ = USER.LOGIN_SEQ 
+		AND USER.SEQ = ADDRESS.USER_SEQ AND USER.SEQ = POINT.USER_SEQ AND USER.SEQ = #{param1}
+	</select>
+	
+	<select id="orderlistDao" resultType="com.MajorCompany.RAUM.dto.SKH.paymentList">
+		SELECT DISTINCT PAYMENT, PAYMENT.SEQ AS SEQ, PAYMENT.ORDERDATE AS ORDERDATE, PRODUCT.NAME AS NAME, 
+		PI.IMAGE AS IMAGE, SIZE, QTY, PRODUCT.PRICE AS PRICE, PAYMENTSTATUSREF_SEQ AS CHECKED, STATUS
+		FROM CART JOIN RENT JOIN PAYMENT JOIN USER JOIN PRODUCT JOIN PRODUCTIMAGE AS PI JOIN PAYMENTSTATUS AS PS JOIN PAYMENTSTATUSREF AS PSR ON 
+        PAYMENT.RENT_SEQ = RENT.SEQ AND RENT.CART_SEQ = CART.SEQ AND CART.PRODUCT_SEQ = PRODUCT.SEQ AND PAYMENT.SEQ = PS.PAYMENT_SEQ AND PS.PAYMENTSTATUSREF_SEQ = PSR.SEQ 
+        AND PRODUCT.SEQ = PI.PRODUCT_SEQ WHERE PAYMENT.USER_SEQ = #{param1}
+	</select>
+	
+	<update id="updateUser">
+		UPDATE USER SET PHONE = #{param1}, NICKNAME = #{param2} WHERE SEQ= #{param3}
+	</update>
+	
+	<update id="updateAddress">
+		UPDATE ADDRESS SET ADDRESS = #{param1} WHERE USER_SEQ= #{param2}
+	</update>
+	
+	<select id="qaSelect" resultType="com.MajorCompany.RAUM.dto.SKH.qaSelect">
+		SELECT QA.SEQ AS SEQ, CATEGORY, TITLE, WRITETIME AS DATE, STATUS FROM QA JOIN QACATEGORY AS QC JOIN QASTATUS AS QS JOIN 
+		QASTATUSREF AS QR ON QA.QACATEGORY_SEQ = QC.SEQ AND QA.SEQ = QS.QA_SEQ AND 
+		QS.QASTATUSREF_SEQ = QR.SEQ WHERE USER_SEQ = #{param1}
+	</select>
+	
+	<select id="qaDetail" resultType="com.MajorCompany.RAUM.dto.SKH.qaSelect">
+		SELECT NICKNAME, CATEGORY, TITLE, content, answer FROM QA JOIN QACATEGORY AS QC JOIN USER ON 
+		QA.QACATEGORY_SEQ = QC.SEQ AND QA.USER_seq = USER.SEQ WHERE USER_SEQ = #{param1}
+	</select>
+	
+	<select id="reviewSelect" resultType="com.MajorCompany.RAUM.dto.SKH.myReview">
+		SELECT REVIEW.SEQ AS SEQ, TITLE, WRITEDATE, VIEWS FROM REVIEW JOIN REVIEWVIEWS AS RV ON REVIEW.SEQ = RV.REVIEW_SEQ WHERE USER_SEQ = #{param1}
+	</select>
+	
+	<select id="reviewDetail" resultType="com.MajorCompany.RAUM.dto.SKH.myReview">
+		SELECT NICKNAME, TITLE, CONTENT, VIEWS, WRITEDATE FROM REVIEW JOIN REVIEWVIEWS AS RV JOIN USER ON REVIEW.SEQ = RV.REVIEW_SEQ 
+		AND USER.SEQ = REVIEW.USER_SEQ WHERE REVIEW.SEQ = #{param1}
+	</select>
+	
+	<update id="memberBye">
+		UPDATE LOGIN SET STATUS = 0 WHERE email = #{param1}
+	</update>
+
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- ~~~~~~~~~~샘플코드(클래스, 패키지명 바뀐거 확인!!)~~~~~~~~~~ -->
+<mapper namespace="com.MajorCompany.RAUM.dao.MDBDao">
+	<!--    인터페이스 메소드명 -->
+	
+
+	
+							
+	<insert id="Paymentwrite">
+		INSERT INTO PAYMENT (User_seq, Rent_seq, name, address, phone, payment, receiveMethod, returnMethod, accountName, paymentMethod, optional)
+		VALUES (#{0}, #{1}, #{dto.name}, #{dto.address}, #{dto.phone}, #{dto.payment}, #{dto.receiveMethod}, #{dto.returnMethod}, #{dto.accountName}, #{dto.paymentMethod}, #{dto.optional})
+	</insert>
+	
+	<insert id="Deposit">
+		INSERT INTO Deposit (Payment_seq, account, accountName, deposit)
+		VALUES ((SELECT seq FROM Payment ORDER BY seq DESC LIMIT 1), #{0}, #{1}, 20000)
+	</insert> 
+	
+	<insert id="PaymentStatus">
+		INSERT INTO PaymentStatus (Payment_seq, PaymentStatusRef_seq)
+		VALUES ((SELECT seq FROM Payment ORDER BY seq DESC LIMIT 1), 1);
+	</insert>
+
+	<select id="contentView2" resultType="com.MajorCompany.RAUM.dto.MDB.CompletePayment">
+		SELECT P.SEQ, L.EMAIL, P.NAME, P.PHONE, P.RENT_SEQ, P.PAYMENT, P.ORDERDATE
+		FROM USER AS U, PAYMENT AS P, LOGIN AS L
+		WHERE U.SEQ = P.USER_SEQ
+		AND L.SEQ = U.LOGIN_SEQ
+		AND P.SEQ = 
+		(SELECT p.seq
+		FROM Payment as p, User
+		WHERE p.User_seq = User.seq
+		AND User.seq = #{0}
+		ORDER BY p.seq DESC
+		LIMIT 1);
+	</select>
+	
+	<select id="contentView" resultType="com.MajorCompany.RAUM.dto.LCS.DTOPayment">
+			SELECT c.qty, p.price, c.startDate, c.endDate, c.rentDay
+			FROM Cart AS c, Product AS p
+			WHERE p.seq = c.Product_seq
+			AND p.seq = 2; 
+	</select>
+	
+	<!-- 관리자페이지 회원리스트 -->
+	<select id="getUserList" resultType="com.MajorCompany.RAUM.dto.MDB.AdminUserList">
+		SELECT u.nickname, u.phone, l.email, a.name
+		FROM User AS u, Login AS l, Address AS a
+		WHERE l.seq = u.Login_seq
+		AND u.seq = a.User_seq
+	</select>
+	
+	
+	<select id="getProductList" resultType="com.MajorCompany.RAUM.dto.MDB.AdminProduct">
+		SELECT p.seq, pi.image, p.name, p.price
+		FROM Product AS p, Productimage AS pi
+		WHERE p.seq = pi.Product_seq
+	</select>
+	
+	
+	<!-- 관리자 문의내역 -->
+	<select id="getQAList" resultType="com.MajorCompany.RAUM.dto.MDB.AdminQAlist">
+		SELECT QA.seq, QAC.category, QA.title, U.nickname, QA.writeTime, QASR.status
+		FROM QA AS QA, User AS U, QAStatusRef AS QASR, QACategory AS QAC, QAStatus AS QAS
+		WHERE QA.seq = QAS.QA_seq
+		AND QAS.QAStatusRef_seq = QASR.seq
+		AND QAC.seq = QA.QACategory_seq
+		AND QA.User_seq = U.seq
+		ORDER BY writeTime;
+	</select>
+	
+	
+	<!-- 관리자 문의내역 삭제 -->
+	<delete id="QAStatusdelete">
+		<!-- DELETE FROM QAStatus WHERE seq = #{param1}; -->
+		DELETE FROM QAStatus WHERE QA_seq = #{param1};
+	</delete>
+	<delete id="QAdelete">
+		DELETE FROM QA WHERE seq = #{param1};
+	</delete>
+	
+	
+	<select id="content" resultType="com.MajorCompany.RAUM.dto.MDB.AdminQA">
+		SELECT seq, title, content, writeTime FROM QA WHERE seq = #{param1};
+	</select>
+	
+	<update id="writeAnswer">
+		UPDATE QA SET answer = #{param2}  WHERE seq = #{param1};
+	</update>
+	
+	<update id="writeAnswerseq">
+		UPDATE QAStatus SET QAStatusRef_seq = 2  WHERE seq = #{param1};
+	</update>
+
+</mapper>

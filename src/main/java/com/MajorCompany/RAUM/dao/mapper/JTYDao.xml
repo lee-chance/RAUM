@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- ~~~~~~~~~~샘플코드(클래스, 패키지명 바뀐거 확인!!)~~~~~~~~~~ -->
+<mapper namespace="com.MajorCompany.RAUM.dao.JTYDao">
+	<!--    인터페이스 메소드명 -->
+	
+	<!-- /////////////////                회원가입               /////////////////////// -->
+	
+	<insert id="inserLoginDao">
+		INSERT INTO LOGIN (email, password) VALUES (#{param1}, #{param2})
+	</insert>
+	
+	<insert id="insertUserDao">
+		INSERT INTO USER (Login_seq, nickname, phone, birthday) VALUES ((SELECT SEQ FROM LOGIN ORDER BY SEQ DESC LIMIT 1), #{param1}, #{param2},#{param3})
+	</insert>
+	
+	<insert id="insertAddressDao">
+		INSERT INTO ADDRESS (User_seq, address) VALUES ((SELECT SEQ FROM USER ORDER BY SEQ DESC LIMIT 1), #{param1})
+	</insert>
+	<select id="checkEmailDao" resultType="String" >
+		SELECT email as EMAIL FROM Login where email = #{param1} 
+	</select>
+
+	<!--//////////////////////             관리자 공지사항           ////////////////////-->
+
+	<select id="NoticeListContent" resultType="com.MajorCompany.RAUM.dto.JTY.JTYNoticeDto">
+		SELECT * FROM NOTICE LIMIT 5
+	</select>
+	
+	<insert id="noticeWriteDao">
+		INSERT INTO NOTICE (User_seq, title, content) VALUES  (#{param1}, #{param2}, #{param3})
+	</insert>
+	 
+	 <select id="noticeDao"  resultType="com.MajorCompany.RAUM.dto.JTY.JTYNoticeDto">
+	 	SELECT * FROM NOTICE WHERE SEQ = #{param1}
+	 </select>
+	 
+ 	 <update id="updateNoticeDao">
+	 	UPDATE NOTICE SET TITLE = #{param1}, CONTENT = #{param2} WHERE SEQ = #{param3}
+	 </update> 
+ 	
+ 	 <delete id="deleteDao">
+ 	 	DELETE FROM NOTICE WHERE SEQ = #{param1}
+ 	 </delete>
+
+	<!--//////////////////////             관리자 FAQ	           ////////////////////-->
+	
+	<select id="FAQListContent" resultType="com.MajorCompany.RAUM.dto.JTY.JTYFAQDto">
+		SELECT * FROM NOTICEQUESTION LIMIT 5
+	</select>
+	
+	<insert id="noticeQDao">
+		INSERT INTO NOTICEQUESTION (User_seq, title, content, type) VALUES ((SELECT SEQ FROM LOGIN ORDER BY SEQ DESC LIMIT 1), #{param1}, #{param2},#{param3})
+	</insert>
+	<select id="faqloaddao" resultType="com.MajorCompany.RAUM.dto.JTY.JTYFAQDto">
+		SELECT * FROM NOTICEQUESTION WHERE SEQ = #{param1}
+	</select>
+	<update id="updateFAQDao">
+		UPDATE NOTICEQUESTION SET TITLE = #{param1}, CONTENT = #{param2}, TYPE =  #{param3} WHERE SEQ = #{param4}
+	</update>
+	<delete id="deleteFAQDao">
+		DELETE FROM NOTICEQUESTION WHERE SEQ = #{param1}
+	</delete>
+	
+</mapper>
